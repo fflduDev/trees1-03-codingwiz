@@ -11,7 +11,7 @@ public class OrgChartImpl implements OrgChart{
 
 	@Override
 	public void addRoot(Employee e) {
-		GenericTreeNode<Employee> rootEmployee = new GenericTreeNode<>(e);
+		GenericTreeNode<Employee> rootEmployee = new GenericTreeNode<Employee>(e);
 		nodes.add(rootEmployee);
 	}
 
@@ -26,7 +26,7 @@ public class OrgChartImpl implements OrgChart{
 			GenericTreeNode<Employee> currentEmployee = nodes.get(i);
 
 			if (currentEmployee.data.equals(manager)) {
-				GenericTreeNode<Employee> newE = new GenericTreeNode<>(newPerson);
+				GenericTreeNode<Employee> newE = new GenericTreeNode<Employee>(newPerson);
 				currentEmployee.addChild(newE);
 
 				nodes.add(newE);
