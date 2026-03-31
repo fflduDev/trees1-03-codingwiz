@@ -42,7 +42,23 @@ public class OrgChartImpl implements OrgChart{
 
 	@Override
 	public void showOrgChartDepthFirst() {
+		for (GenericTreeNode<Employee> candidate : nodes) {
+			boolean isChild = false;
+			for (GenericTreeNode<Employee> other : nodes) {
+				if (other.children.contains(candidate)) {
+					isChild = true;
+					break;
+				}
+			}
+			if (!isChild) printDepthFirst(candidate, 0);
+		}
+	}
 
+	private void printDepthFirst(GenericTreeNode<Employee> node, int depth) {
+		System.out.println("  ".repeat(depth) + node.data);
+		for (GenericTreeNode<Employee> child : node.children) {
+			printDepthFirst(child, depth + 1);
+		}
 	}
 
 	@Override
