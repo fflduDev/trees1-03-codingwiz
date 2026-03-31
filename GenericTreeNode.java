@@ -20,6 +20,9 @@ public class GenericTreeNode<E> {
 		// what do you do when the item has children?
 		// I suggest "give them to the parent"
 	}
+	public ArrayList<GenericTreeNode<E>> getChildren(){
+		return this.children;
+	}
 	
 	
 } 
