@@ -9,17 +9,18 @@ public class OrgChartImpl implements OrgChart{
 
 	//Employee is your generic 'E'..
 	private List<GenericTreeNode<Employee>> nodes = new ArrayList<>();
-
+	private GenericTreeNode<Employee> root;
 
 	@Override
 	public void addRoot(Employee e) {
-		GenericTreeNode<Employee> rootEmployee = new GenericTreeNode<Employee>(e);
-		nodes.add(rootEmployee);
+		this.root = new GenericTreeNode<Employee>(e);
+		nodes.add(root);
 	}
 
 	@Override
 	public void clear() {
-
+		this.root = null;
+		this.nodes.clear();
 	}
 
 	@Override
@@ -39,8 +40,26 @@ public class OrgChartImpl implements OrgChart{
 
 	@Override
 	public void removeEmployee(Employee firedPerson) {
+		GenericTreeNode<Employee> result = searchDFS(firedPerson, nodes.get(0));
+		if(result.getChildren()==null){
 
+		}
 	}
+
+	public GenericTreeNode<Employee> searchDFS(Employee search, GenericTreeNode<Employee> node) {
+		if (node.getChildren() != null) {
+			ArrayList<GenericTreeNode<Employee>> children = node.getChildren();
+			for (GenericTreeNode<Employee> child : children) {
+				if (child.equals(search)) {
+					return node;
+				}
+				searchDFS(search, child);
+
+			}
+			return null;
+		}
+	}
+
 
 	@Override
 	public void showOrgChartDepthFirst() {
@@ -81,7 +100,7 @@ public class OrgChartImpl implements OrgChart{
 				GenericTreeNode<Employee> current = queue.poll();
 				System.out.print(current.data + " 	");
 				ArrayList<GenericTreeNode<Employee>> child = current.getChildren();
-				for(GenericTreeNode<Employee>c : child){
+				for(GenericTreeNode<Employee> c : child){
 					queue.add(c);
 				}
 
