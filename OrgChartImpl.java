@@ -47,17 +47,15 @@ public class OrgChartImpl implements OrgChart{
 	}
 
 	public GenericTreeNode<Employee> searchDFS(Employee search, GenericTreeNode<Employee> node) {
-		if (node.getChildren() != null) {
-			ArrayList<GenericTreeNode<Employee>> children = node.getChildren();
-			for (GenericTreeNode<Employee> child : children) {
-				if (child.equals(search)) {
-					return node;
-				}
-				searchDFS(search, child);
-
-			}
-			return null;
+		if (node == null) return null;
+		if (node.data.equals(search)) {
+			return node;
 		}
+		for (GenericTreeNode<Employee> child : node.getChildren()) {
+			GenericTreeNode<Employee> found = searchDFS(search, child);
+			if (found != null) return found;
+		}
+		return null;
 	}
 
 
