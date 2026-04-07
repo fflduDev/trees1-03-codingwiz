@@ -25,24 +25,35 @@ public class OrgChartImpl implements OrgChart{
 
 	@Override
 	public void addDirectReport(Employee manager, Employee newPerson) {
-		for (int i = 0; i < nodes.size(); i++) {
-			GenericTreeNode<Employee> currentEmployee = nodes.get(i);
-
-			if (currentEmployee.data.equals(manager)) {
-				GenericTreeNode<Employee> newE = new GenericTreeNode<Employee>(newPerson);
-				currentEmployee.addChild(newE);
-
-				nodes.add(newE);
-				break;
-			}
+		GenericTreeNode<Employee> managerNode = searchDFS(manager, root);
+		if (managerNode != null) {
+			GenericTreeNode<Employee> newE = new GenericTreeNode<Employee>(newPerson);
+			managerNode.addChild(newE);
+			nodes.add(newE);
 		}
 	}
 
 	@Override
 	public void removeEmployee(Employee firedPerson) {
-		GenericTreeNode<Employee> result = searchDFS(firedPerson, nodes.get(0));
-		if(result.getChildren()==null){
+		GenericTreeNode<Employee> toRemove = searchDFS(firedPerson, root);
+		if (toRemove == null) return;
+		removeFromListRecursive(toRemove);
+		if (toRemove == root) {
+			root = null;
+		} else {
+			for (GenericTreeNode<Employee> potentialParent : nodes) {
+				if (potentialParent.getChildren().contains(toRemove)) {
+					potentialParent.getChildren().remove(toRemove);
+					break;
+				}
+			}
+		}
+	}
 
+	private void removeFromListRecursive(GenericTreeNode<Employee> node) {
+		nodes.remove(node);
+		for (GenericTreeNode<Employee> child : node.getChildren()) {
+			removeFromListRecursive(child);
 		}
 	}
 
